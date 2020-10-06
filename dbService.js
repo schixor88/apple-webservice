@@ -6,18 +6,18 @@ var isRunningOnServer = false;
 
 var serverDbConfig = {
   localHost: "localhost",
-  port: "3306",
-  user: "appleden_remote",
-  password: "paradisevalley2013",
-  database: "appleden_clinic",
+  port: process.env.DB_PORT,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
 };
 
 var remoteDbConfig = {
   localHost: "167.86.66.101",
-  port: "3306",
-  user: "appleden_remote",
-  password: "paradisevalley2013",
-  database: "appleden_clinic",
+  port: process.env.DB_PORT,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
 };
 
 var db = isRunningOnServer ? serverDbConfig : remoteDbConfig;
