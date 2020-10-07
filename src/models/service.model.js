@@ -28,6 +28,11 @@ Service.getChildren = (service_parent_id, result) => {
   dbConnect.query(
     `Select * from ${tableName} where service_parent_id=${service_parent_id}`,
     (err, res) => {
+      if (err) {
+        console.log("error", err);
+        result(null, err);
+        return;
+      }
       result(null, res);
     }
   );
@@ -37,6 +42,11 @@ Service.getOne = (service_id, result) => {
   dbConnect.query(
     `Select * from ${tableName} where service_id=${service_id}`,
     (err, res) => {
+      if (err) {
+        console.log("error", err);
+        result(null, err);
+        return;
+      }
       result(null, res);
     }
   );
