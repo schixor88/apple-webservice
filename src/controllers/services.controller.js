@@ -1,4 +1,4 @@
-const Service = require("../models/service.model"); //Retrieve all WebContent from the database.
+const Service = require("../models/service.model"); //Retrieve all Services from the database.
 
 exports.findAll = (req, res) => {
   Service.getAll((err, data) => {

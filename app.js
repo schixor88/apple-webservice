@@ -3,8 +3,6 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-const dbService = require("./dbService");
-
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
@@ -24,13 +22,12 @@ app.use(express.urlencoded({ extended: false }));
 // });
 
 const serviceRoute = require("./src/routes/services.routes");
+const doctorRoute = require("./src/routes/doctors.routes");
+const appointmentRoute = require("./src/routes/appointments.routes");
 
 app.use("/services", serviceRoute);
-
-//routers
-// const serviceRoutes = app.listen(process.env.PORT, () =>
-//   console.log("app is running")
-// );
+app.use("/doctors", doctorRoute);
+app.use("/appointments", appointmentRoute);
 
 app.listen(PORT, () => {
   console.log("Listen on http://localhost:" + PORT);
