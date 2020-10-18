@@ -12,6 +12,7 @@ var Service = function (service) {
 };
 
 Service.getAll = (result) => {
+  var response=null;
   dbConnect.query(`Select * from ${tableName}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -19,8 +20,13 @@ Service.getAll = (result) => {
       return;
     }
 
-    console.log("Services all: ", res);
-    result(null, res);
+    // console.log("Services all: ", res);
+    // result(null, res);
+
+    response = res;
+    var tree = unflatten(response)
+    console.log("Unflattened all, ",tree)
+    result(null, tree);
   });
 };
 
@@ -66,5 +72,37 @@ Service.getActualParents = (result) => {
     }
   );
 };
+
+
+
+function unflatten(arr) {
+  var tree = [],
+    mappedArr = {},
+    arrElem,
+    mappedElem;
+
+  // First map the nodes of the array to an object -> create a hash table.
+  for (var i = 0, len = arr.length; i < len; i++) {
+    arrElem = arr[i];
+    mappedArr[arrElem.service_id] = arrElem;
+    mappedArr[arrElem.service_id]['children'] = [];
+  }
+
+
+  for (var service_id in mappedArr) {
+    if (mappedArr.hasOwnProperty(service_id)) {
+      mappedElem = mappedArr[service_id];
+      // If the element is not at the root level, add it to its parent array of children.
+      if (mappedElem.service_parent_id) {
+        mappedArr[mappedElem['service_parent_id']]['children'].push(mappedElem);
+      }
+      // If the element is at the root level, add it to first level elements array.
+      else {
+        tree.push(mappedElem);
+      }
+    }
+  }
+  return tree;
+}
 
 module.exports = Service;
